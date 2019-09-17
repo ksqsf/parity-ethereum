@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity Ethereum.  If not, see <http://www.gnu.org/licenses/>.
 
-#![warn(missing_docs, unused_extern_crates)]
-
 //! Ethcore library
 //!
 //! ### Rust version:
@@ -62,7 +60,7 @@ extern crate ethabi;
 extern crate ethash;
 extern crate ethcore_blockchain as blockchain;
 extern crate ethcore_bloom_journal as bloom_journal;
-extern crate ethcore_builtin as builtin;
+pub extern crate ethcore_builtin as builtin;
 extern crate ethcore_call_contract as call_contract;
 extern crate ethcore_db as db;
 extern crate ethcore_io as io;
@@ -161,13 +159,13 @@ pub mod snapshot;
 pub mod spec;
 pub mod verification;
 
-mod externalities;
-mod substate;
-mod transaction_ext;
-mod tx_filter;
+pub mod externalities;
+pub mod substate;
+pub mod transaction_ext;
+pub mod tx_filter;
 
 #[cfg(test)]
-mod tests;
+pub mod tests;
 #[cfg(feature = "json-tests")]
 pub mod json_tests;
 #[cfg(any(test, feature = "test-helpers"))]

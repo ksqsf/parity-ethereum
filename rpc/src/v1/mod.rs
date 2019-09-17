@@ -33,8 +33,8 @@ macro_rules! try_bf {
 mod helpers;
 mod impls;
 mod types;
-#[cfg(test)]
-mod tests;
+// #[cfg(test)]
+// mod tests;
 
 pub mod extractors;
 pub mod informant;

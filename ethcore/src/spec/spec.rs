@@ -102,7 +102,7 @@ impl<'a, T: AsRef<Path>> From<&'a T> for SpecParams<'a> {
 fn run_constructors<T: Backend>(
 	genesis_state: &PodState,
 	constructors: &[(Address, Bytes)],
-	engine: &Engine,
+	engine: &dyn Engine,
 	author: Address,
 	timestamp: u64,
 	difficulty: U256,

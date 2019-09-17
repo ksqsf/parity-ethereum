@@ -51,15 +51,15 @@ pub struct IpfsHandler {
 	/// Hostnames allowed in the `Host` request header
 	allowed_hosts: Option<Vec<Host>>,
 	/// Reference to the Blockchain Client
-	client: Arc<BlockChainClient>,
+	client: Arc<dyn BlockChainClient>,
 }
 
 impl IpfsHandler {
-	pub fn client(&self) -> &BlockChainClient {
+	pub fn client(&self) -> &dyn BlockChainClient {
 		&*self.client
 	}
 
-	pub fn new(cors: DomainsValidation<AccessControlAllowOrigin>, hosts: DomainsValidation<Host>, client: Arc<BlockChainClient>) -> Self {
+	pub fn new(cors: DomainsValidation<AccessControlAllowOrigin>, hosts: DomainsValidation<Host>, client: Arc<dyn BlockChainClient>) -> Self {
 		IpfsHandler {
 			cors_domains: cors.into(),
 			allowed_hosts: hosts.into(),
@@ -154,7 +154,7 @@ pub fn start_server(
 	interface: String,
 	cors: DomainsValidation<AccessControlAllowOrigin>,
 	hosts: DomainsValidation<Host>,
-	client: Arc<BlockChainClient>
+	client: Arc<dyn BlockChainClient>
 ) -> Result<Listening, ServerError> {
 
 	let ip: IpAddr = interface.parse().map_err(|_| ServerError::InvalidInterface)?;

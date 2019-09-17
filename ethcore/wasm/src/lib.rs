@@ -33,8 +33,8 @@ mod panic_payload;
 mod parser;
 mod runtime;
 
-#[cfg(test)]
-mod tests;
+// #[cfg(test)]
+// mod tests;
 
 
 use vm::{GasLeft, ReturnData, ActionParams};

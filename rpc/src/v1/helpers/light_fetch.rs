@@ -81,7 +81,7 @@ where
 	OD: OnDemandRequester + 'static
 {
 	/// The light client.
-	pub client: Arc<LightChainClient>,
+	pub client: Arc<dyn LightChainClient>,
 	/// The on-demand request service.
 	pub on_demand: Arc<OD>,
 	/// Handle to the network.
@@ -583,7 +583,7 @@ where
 
 		match maybe_future {
 			Some(recv) => recv,
-			None => Box::new(future::err(errors::network_disabled())) as Box<Future<Item = _, Error = _> + Send>
+			None => Box::new(future::err(errors::network_disabled())) as Box<dyn Future<Item = _, Error = _> + Send>
 		}
 	}
 
@@ -739,7 +739,7 @@ where
 	tx: EthTransaction,
 	hdr: encoded::Header,
 	env_info: ::vm::EnvInfo,
-	engine: Arc<::ethcore::engines::Engine>,
+	engine: Arc<dyn (::ethcore::engines::Engine)>,
 	on_demand: Arc<OD>,
 	sync: Arc<S>,
 }
@@ -804,7 +804,7 @@ where
 					failed => Ok(future::Loop::Break(failed)),
 				}
 			})
-		})) as Box<Future<Item = _, Error = _> + Send>
+		})) as Box<dyn Future<Item = _, Error = _> + Send>
 	} else {
 		trace!(target: "light_fetch", "Placing execution request for {} gas in on_demand",
 			params.tx.gas);
@@ -825,8 +825,8 @@ where
 		});
 
 		match proved_future {
-			Some(fut) => Box::new(fut) as Box<Future<Item = _, Error = _> + Send>,
-			None => Box::new(future::err(errors::network_disabled())) as Box<Future<Item = _, Error = _> + Send>,
+			Some(fut) => Box::new(fut) as Box<dyn Future<Item = _, Error = _> + Send>,
+			None => Box::new(future::err(errors::network_disabled())) as Box<dyn Future<Item = _, Error = _> + Send>,
 		}
 	}
 }

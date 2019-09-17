@@ -102,10 +102,8 @@ extern crate serde_derive;
 #[cfg(test)]
 extern crate rand_xorshift;
 
-#[cfg(test)]
-extern crate ethjson;
-#[cfg(test)]
-extern crate transaction_pool as txpool;
+
+
 
 #[cfg(test)]
 #[macro_use]
@@ -115,11 +113,9 @@ extern crate pretty_assertions;
 #[macro_use]
 extern crate macros;
 
-#[cfg(test)]
-extern crate fake_fetch;
 
-#[cfg(test)]
-extern crate ethcore_io as io;
+
+
 
 pub extern crate jsonrpc_ws_server as ws;
 
