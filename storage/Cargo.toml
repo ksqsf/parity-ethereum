@@ -1,0 +1,29 @@
+[package]
+name = "storage"
+version = "0.1.0"
+edition = "2018"
+license = "GPL-3.0"
+
+[dependencies]
+clap = "2.33.0"
+kvdb = "0.1.0"
+env_logger = "0.6.2"
+log = "0.4.8"
+error-chain = "0.12.1"
+heapsize = "0.4.2"
+lazy_static = "1.3.0"
+parking_lot = "0.9.0"
+rlp = "0.4.2"
+serde_json = "1.0.40"
+keccak-hash = "0.2.0"
+
+state-db = { path = "../ethcore/state-db" }
+account-state = { path = "../ethcore/account-state" }
+ethcore = { path =  "../ethcore" }
+ethcore-db = { path = "../ethcore/db" }
+ethcore-types = { path = "../ethcore/types", package = "common-types" }
+ethkey = { path = "../accounts/ethkey" }
+ethjson = { path = "../json" }
+parity-ethereum = { path = ".." }
+journaldb = { path = "../util/journaldb" }
+ethereum-types = "0.6.0"

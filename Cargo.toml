@@ -73,6 +73,7 @@ ethcore-secretstore = { path = "secret-store", optional = true }
 registrar = { path = "util/registrar" }
 
 parity-util-mem = { version = "0.1", features = ["jemalloc-global"] }
+error-chain = "0.12.1"
 
 [build-dependencies]
 rustc_version = "0.2"
@@ -119,14 +120,15 @@ path = "parity/main.rs"
 name = "parity"
 
 [profile.release]
-debug = false
-lto = true
+debug = true
+lto = false
 
 [workspace]
 # This should only list projects that are not
 # in the dependency tree in any other way
 # (i.e. pretty much only standalone CLI tools)
 members = [
+        "storage",
 	"accounts/ethkey/cli",
 	"accounts/ethstore/cli",
 	"chainspec",
