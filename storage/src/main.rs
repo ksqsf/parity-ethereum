@@ -2,6 +2,8 @@
 //!
 //! Copyright © Conflux Foundation.
 
+use rusage::*;
+
 const KEEP_ERA: u64 = 1000;
 
 mod errors;
@@ -1623,6 +1625,15 @@ impl TxReplayer {
 
     pub fn commit(&mut self, txs: u64, ops: u32) -> &H256 {
         warn!("Committing block at tx {}, ops {}.", txs, ops);
+        match proc_disk_info() {
+            Ok(info) => {
+                debug!("disk read {}", info.read_bytes);
+                debug!("disk write {}", info.write_bytes);
+            }
+            Err(err) => {
+                debug!("failed to read proc disk info: {:?}", err);
+            }
+        }
 
         unsafe {
             let mut state = std::ptr::read(&self.state);
@@ -1638,13 +1649,14 @@ impl TxReplayer {
             let ops_delta = state_db.journal_under(&mut batch, era, &keccak(format!("{}", era))).unwrap();
 
             //prune
-            match state_db.journal_db().earliest_era() {
-                Some(old_era) if old_era - era > KEEP_ERA => {
-                    info!("pruning");
-                    state_db.mark_canonical(&mut batch, era - KEEP_ERA, &keccak(format!("{}", era - KEEP_ERA))).unwrap();
-                }
-                _ => {}
-            }
+			state_db.mark_canonical(&mut batch, era - 1, &keccak(format!("{}", era - 1))).unwrap();
+            // match state_db.journal_db().earliest_era() {
+            //     Some(old_era) if old_era - era > KEEP_ERA => {
+            //         info!("pruning");
+            //         state_db.mark_canonical(&mut batch, era - KEEP_ERA, &keccak(format!("{}", era - KEEP_ERA))).unwrap();
+            //     }
+            //     _ => {}
+            // }
             //state_db.mark_canonical(&mut batch, era, &state_root).unwrap();
             state_db.journal_db().backing().write(batch).unwrap();
             state_db.journal_db().flush();

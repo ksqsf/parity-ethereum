@@ -27,3 +27,5 @@ ethjson = { path = "../json" }
 parity-ethereum = { path = ".." }
 journaldb = { path = "../util/journaldb" }
 ethereum-types = "0.6.0"
+
+rusage = { git = "https://github.com/ksqsf/rusage" }
